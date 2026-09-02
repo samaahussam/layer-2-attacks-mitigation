@@ -140,14 +140,15 @@ The access switches connect the end devices and provide the main point where Lay
 ```
 
 VLAN Design
-VLANID	        Name	                Purpose
-10	        Management	              Reserved for management of network devices
-20	        Business Operations	      General business users
-30	        IT	                      IT and technical users
-40	        Servers	                  Server network, including the DHCP server
-50	        IoT	                      IoT and low-trust devices
-99	        Guest	                    Guest devices with limited access
-999	        Native/Unused	            Unused VLAN used as the native VLAN on trunk
+| VLAN ID | Name | Purpose |
+| :--- | :--- | :--- |
+| 10 | Management | Reserved for management of network devices |
+| 20 | Business Operations | General business users |
+| 30 | IT | IT and technical users |
+| 40 | Servers | Server network, including the DHCP server |
+| 50 | IoT | IoT and low-trust devices |
+| 99 | Guest | Guest devices with limited access |
+| 999 | Native/Unused | Unused VLAN used as the native VLAN on trunk |
 
 Why use multiple VLANs?
 
@@ -157,13 +158,13 @@ For example, the IT VLAN is separated from normal business users, while Guest an
 
 The VLAN structure is mainly used in this project to provide a realistic environment for demonstrating Layer 2 security concepts.
 
-VLAN	Network	Gateway / SVI	       Example         DHCP Range
-10	10.10.10.0/24	                 10.10.10.1	     10.10.10.10+
-20	10.10.20.0/24	                 10.10.20.1	     10.10.20.10+
-30	10.10.30.0/24	                 10.10.30.1	     10.10.30.10+
-40	10.10.40.0/24	                 10.10.40.1	     Static
-50	10.10.50.0/24	                 10.10.50.1	     10.10.50.10+
-99	10.10.99.0/24	                 10.10.99.1	     10.10.99.10+
+| VLAN | Network / Gateway | Example SVI | DHCP Range |
+| :--- | :--- | :--- | :--- |
+| 10 | 10.10.10.0/24 | 10.10.10.1 | 10.10.10.10+ |
+| 20 | 10.10.20.0/24 | 10.10.20.1 | 10.10.20.10+ |
+| 30 | 10.10.30.0/24 | 10.10.30.1 | 10.10.30.10+ |
+| 40 | 10.10.40.0/24 | 10.10.40.1 | Static |
+| 50 | 10.10.50.0/24 | 10.10.50.1 | 10.10.50.10+ |
 
 The multilayer switch performs inter-VLAN routing using SVIs.
 
@@ -498,13 +499,14 @@ Packet Tracer is primarily a network simulation and learning tool. It does not p
 
 For this reason, the five attacks in this project are not all reproduced in exactly the same way.
 
-Attack	            Simulation in Packet Tracer
-MAC Flooding	      Basic MAC-learning behavior demonstrated; no macof-style flooding
-DHCP Starvation	    Cannot perform automated large-scale fake-MAC requests
-DHCP Spoofing	      Rogue DHCP concept can be demonstrated
-ARP Spoofing	      Complete forged-ARP attack not reproduced
-VLAN Hopping	      Configuration and trunk behavior can be studied and tested
-STP Manipulation    STP behavior and security configuration can be studied and tested
+| Attack | Simulation in Packet Tracer |
+| :--- | :--- |
+| MAC Flooding | Basic MAC-learning behavior demonstrated; no macof-style flooding |
+| DHCP Starvation | Cannot perform automated large-scale fake-MAC requests |
+| DHCP Spoofing | Rogue DHCP concept can be demonstrated |
+| ARP Spoofing | Complete forged-ARP attack not reproduced |
+| VLAN Hopping | Configuration and trunk behavior can be studied and tested |
+| STP Manipulation | STP behavior and security configuration can be studied and tested |
 
 These limitations are part of the reason the project focuses on both attack understanding and defensive configuration.
 
@@ -514,13 +516,13 @@ The project does not claim that Packet Tracer provides the same attack capabilit
 
 
 Summary
-Attack	                          Main Idea	                                   Cisco Mitigation
-MAC Flooding	                    Attempt to exhaust the switch MAC table	     Port Security
-DHCP Spoofing / Starvation	      Rogue DHCP server or DHCP pool exhaustion	   DHCP Snooping
-ARP Spoofing	                    Forged IP-to-MAC mappings	                   Dynamic ARP Inspection
-VLAN Hopping	                    Attempt to bypass VLAN separation	           Access/Trunk hardening + Native VLAN + Allowed VLANs
-STP Manipulation	                Attempt to influence the STP Root Bridge	   BPDU Guard + Root Guard
-
+| Attack | Main Idea | Cisco Mitigation |
+| :--- | :--- | :--- |
+| MAC Flooding | Attempt to exhaust the switch MAC table | Port Security |
+| DHCP Spoofing / Starvation | Rogue DHCP server or DHCP pool exhaustion | DHCP Snooping |
+| ARP Spoofing | Forged IP-to-MAC mappings | Dynamic ARP Inspection |
+| VLAN Hopping | Attempt to bypass VLAN separation | Access/Trunk hardening + Native VLAN + Allowed VLANs |
+| STP Manipulation | Attempt to influence the STP Root Bridge | BPDU Guard + Root Guard |
 
 
 Tools Used
