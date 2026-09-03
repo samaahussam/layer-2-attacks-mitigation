@@ -172,7 +172,7 @@ The DHCP server is located in VLAN 40. Since DHCP requests are broadcasts, ip he
 
 No dynamic routing protocol is required because the lab contains a single Layer 3 switch.
 
-Attack 1: MAC Flooding
+## Attack 1: MAC Flooding
 
 What is MAC Flooding?
 
@@ -184,7 +184,7 @@ In a MAC flooding attack, an attacker sends a large number of frames with differ
 
 If the table becomes exhausted, traffic for unknown destinations may be flooded to multiple ports, potentially allowing an attacker to observe traffic on the local segment.
 
-Risk
+### Risk
 
 Possible impacts include:
 
@@ -199,11 +199,11 @@ Instead, the attacker PC was used to demonstrate the basic MAC-learning behavior
 
 This is not a full MAC flooding attack. It is only a simple demonstration of how a switch can learn different MAC addresses on the same physical port.
 
-Mitigation: Port Security
+### Mitigation: Port Security
 
 Port Security can limit the number of MAC addresses learned on an access port.
 
-Example:
+### Example:
 
 interface FastEthernet0/X
  switchport mode access
@@ -212,7 +212,7 @@ interface FastEthernet0/X
  switchport port-security maximum 1
  switchport port-security violation shutdown
 
-Configuration explanation
+### Configuration explanation
 
 .switchport mode access
 Keeps the port as an access port.
@@ -236,7 +236,7 @@ These commands can be used to inspect learned MAC addresses and confirm that Por
 
 
 
-Attack 2: DHCP Spoofing and Starvation
+## Attack 2: DHCP Spoofing and Starvation
 
 What are they?
 
@@ -257,7 +257,7 @@ If clients accept the rogue server's response, the attacker may provide a malici
 
 This can potentially help create a Man-in-the-Middle scenario or redirect traffic.
 
-Risk
+### Risk
 
 Possible impacts include:
 
@@ -273,11 +273,11 @@ A rogue DHCP server can be configured to demonstrate the concept of a second DHC
 
 However, the exact behavior of a real-world DHCP starvation or rogue DHCP attack cannot be reproduced completely using the available Packet Tracer tools.
 
-Mitigation: DHCP Snooping
+### Mitigation: DHCP Snooping
 
 DHCP Snooping allows the switch to distinguish between trusted and untrusted DHCP sources.
 
-Example:
+### Example:
 
 ip dhcp snooping
 ip dhcp snooping vlan 10,20,30,40,50,99
@@ -291,7 +291,7 @@ User-facing access ports remain untrusted by default.
 
 DHCP server responses arriving through an untrusted port can therefore be blocked.
 
-DHCP Snooping also creates a binding table containing information such as:
+### DHCP Snooping also creates a binding table containing information such as:
 
 MAC Address
 IP Address
@@ -307,7 +307,7 @@ show ip dhcp snooping binding
 These commands can be used to verify that DHCP Snooping is enabled and that bindings are being learned.
 
 
-Attack 3: ARP Spoofing
+## Attack 3: ARP Spoofing
 
 What is ARP Spoofing?
 
@@ -315,7 +315,7 @@ ARP is used to map an IP address to a MAC address on a local network.
 
 ARP does not provide authentication, so a device can send a forged ARP message claiming that a particular IP address belongs to its MAC address.
 
-How the Attack Works?
+### How the Attack Works?
 
 For example, an attacker can attempt to convince a victim that:
 
@@ -329,9 +329,9 @@ If successful, the attacker can place themselves between the victim and the gate
 
 This can create a Man-in-the-Middle position.
 
-Risk
+### Risk
 
-Possible impacts include:
+### Possible impacts include:
 
 .Traffic interception
 .Traffic modification
@@ -345,13 +345,13 @@ Therefore, a complete ARP poisoning attack was not reproduced in the lab.
 
 The normal ARP behavior and the IP-to-MAC relationship can still be inspected, while the defensive configuration can be implemented and verified.
 
-Mitigation: Dynamic ARP Inspection
+### Mitigation: Dynamic ARP Inspection
 
 Dynamic ARP Inspection (DAI) validates ARP packets received on untrusted ports.
 
 It can use the DHCP Snooping binding table to compare the IP and MAC information of ARP messages against known legitimate bindings.
 
-Example:
+### Example:
 
 ip arp inspection vlan 10,20,30,40,50,99
 
@@ -371,7 +371,7 @@ These commands can be used to inspect the ARP inspection configuration and the b
 
 
 
-Attack 4: VLAN Hopping
+## Attack 4: VLAN Hopping
 
 What is VLAN Hopping?
 
@@ -379,13 +379,13 @@ VLAN hopping is an attempt to access traffic belonging to a VLAN that the attack
 
 Two common techniques are:
 
-DTP-based VLAN Hopping
+### DTP-based VLAN Hopping
 
 If a switch port is allowed to negotiate trunking using DTP, an attacker may attempt to make the port become a trunk.
 
 A trunk could then provide access to multiple VLANs.
 
-Double Tagging
+### Double Tagging
 
 An attacker can construct a frame containing two VLAN tags.
 
@@ -393,7 +393,7 @@ The outer tag can be removed by the first switch, leaving the inner VLAN tag to 
 
 This technique depends on the native VLAN and the network topology.
 
-Mitigation
+### Mitigation
 
 Several basic hardening steps can be used together.
 
@@ -437,8 +437,7 @@ The output can be checked to confirm:
 
 
 
-
-Attack 5: STP Manipulation
+## Attack 5: STP Manipulation
 
 What is STP?
 
@@ -458,7 +457,7 @@ This can cause STP to recalculate the topology and change traffic paths.
 
 Repeated topology changes can also contribute to network instability or denial of service.
 
-Mitigation 1: BPDU Guard
+### Mitigation 1: BPDU Guard
 
 BPDU Guard can be enabled on user-facing ports.
 
@@ -472,7 +471,7 @@ If a BPDU is received on a protected edge port, the switch can place the port in
 
 This helps prevent an unauthorized switch from participating in STP through an end-user port.
 
-Mitigation 2: Root Guard
+### Mitigation 2: Root Guard
 
 Root Guard can be used on ports where the administrator does not want a downstream switch to become the Root Bridge.
 
